@@ -1,0 +1,32 @@
+name: SimpleJailCells
+main: com.imjake9.simplejail.cells.SimpleJailCells
+description: Adds cell functionality to SimpleJail.
+version: 0.1
+author: imjake9
+depend: [SimpleJail]
+
+commands:
+  createjail:
+    description: Creates a new jail at the current location.
+    usage: /<command> <name>
+    aliases: [cjail]
+  removejail:
+    description: Deletes a jail.
+    usage: /<command> <name>
+    aliases: [rjail]
+  createcell:
+    description: Creates a new jail cell at the current location.
+    usage: /<command> <jail:name>
+    aliases: [ccell]
+  removecell:
+    description: Deletes a jail cell.
+    usage: /<command> <jail:name>
+    aliases: [rcell]
+  jailflag:
+    description: Modifies jail properties.
+    usage: /<command> <jail> <flag> [value]
+    aliases: [jflag, jailf]
+  cellflag:
+    description: Modifies cell properties.
+    usage: /<command> <jail:cell> <flag> [value]
+    aliases: [cflag, cellf]

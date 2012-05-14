@@ -14,7 +14,11 @@ public class Jail extends JailCell {
     }
     
     public static JailCell deserialize(Map<String, Object> data) {
-        Jail jail = (Jail) JailCell.deserialize(data);
+        JailCell cell = JailCell.deserialize(data);
+        Jail jail = new Jail();
+        jail.jailLimit = cell.jailLimit;
+        jail.jailLoc = cell.jailLoc;
+        jail.unjailLoc = cell.unjailLoc;
         jail.cells = (Map<String, JailCell>) data.get("cells");
         return jail;
     }

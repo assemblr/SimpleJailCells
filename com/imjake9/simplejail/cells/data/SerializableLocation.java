@@ -24,7 +24,7 @@ public class SerializableLocation extends Location implements ConfigurationSeria
         return new SerializableLocation(
                 Bukkit.getWorld(UUID.fromString((String)data.get("world"))),
                 (Double)data.get("x"), (Double)data.get("y"), (Double)data.get("z"),
-                (Float)data.get("yaw"), (Float)data.get("pitch")
+                new Float((Double)data.get("yaw")), new Float((Double)data.get("pitch"))
                 );
     }
     

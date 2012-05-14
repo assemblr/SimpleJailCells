@@ -11,8 +11,6 @@ import com.imjake9.simplejail.utils.Messager;
 import com.imjake9.simplejail.utils.Messaging;
 import com.imjake9.simplejail.utils.Messaging.MessageLevel;
 import java.util.logging.Logger;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -67,9 +65,6 @@ public class SimpleJailCells extends JavaPlugin {
     }
     
     private void loadConfig() {
-        
-        this.getConfig().options().copyDefaults(true);
-        this.saveConfig();
         
         JailDataManager.init();
         

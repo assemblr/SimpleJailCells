@@ -33,6 +33,7 @@ public final class JailDataManager {
     
     public void load() {
         try {
+            if (!f.getParentFile().exists()) f.getParentFile().mkdirs();
             if (!f.exists()) f.createNewFile();
             config.load(f);
         } catch (Exception ex) {

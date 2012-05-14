@@ -10,23 +10,29 @@ commands:
     description: Creates a new jail at the current location.
     usage: /<command> <name>
     aliases: [cjail]
+    permission: simplejailcells.modify.jails
   removejail:
     description: Deletes a jail.
     usage: /<command> <name>
     aliases: [rjail]
+    permission: simplejailcells.modify.jails
   createcell:
     description: Creates a new jail cell at the current location.
     usage: /<command> <jail:name>
     aliases: [ccell]
+    permission: simplejailcells.modify.cells
   removecell:
     description: Deletes a jail cell.
     usage: /<command> <jail:name>
     aliases: [rcell]
+    permission: simplejailcells.modify.cells
   jailflag:
     description: Modifies jail properties.
     usage: /<command> <jail> <flag> [value]
     aliases: [jflag, jailf]
+    permission: simplejailcells.modify.jails
   cellflag:
     description: Modifies cell properties.
     usage: /<command> <jail:cell> <flag> [value]
     aliases: [cflag, cellf]
+    permission: simplejailcells.modify.jails

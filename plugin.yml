@@ -1,7 +1,7 @@
 name: SimpleJailCells
 main: com.imjake9.simplejail.cells.SimpleJailCells
 description: Adds cell functionality to SimpleJail.
-version: 0.1
+version: 1.0-BETA
 author: imjake9
 depend: [SimpleJail]
 

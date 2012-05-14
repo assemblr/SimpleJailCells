@@ -31,7 +31,7 @@ public class SerializableLocation extends Location implements ConfigurationSeria
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> loc = new HashMap<String, Object>();
-        loc.put("world", getWorld().getUID());
+        loc.put("world", getWorld().getUID().toString());
         loc.put("x", getX());
         loc.put("y", getY());
         loc.put("z", getZ());

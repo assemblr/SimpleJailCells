@@ -6,6 +6,10 @@ import com.imjake9.simplejail.cells.data.Jail;
 import com.imjake9.simplejail.cells.data.JailCell;
 import com.imjake9.simplejail.cells.data.JailDataManager;
 import com.imjake9.simplejail.cells.data.SerializableLocation;
+import com.imjake9.simplejail.utils.MessageTemplate;
+import com.imjake9.simplejail.utils.Messager;
+import com.imjake9.simplejail.utils.Messaging;
+import com.imjake9.simplejail.utils.Messaging.MessageLevel;
 import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -18,6 +22,7 @@ public class SimpleJailCells extends JavaPlugin {
     
     private static SimpleJailCells plugin;
     
+    private Messager messager;
     private CommandHandler commandHandler;
     private JailListener listener;
     
@@ -31,10 +36,15 @@ public class SimpleJailCells extends JavaPlugin {
         return plugin;
     }
     
+    public static Messager getMessager() {
+        return plugin.messager;
+    }
+    
     @Override
     public void onEnable() {
         
         plugin = this;
+        messager = new Messager(this);
         
         // Deal with Cells commands
         commandHandler = new CommandHandler();
@@ -70,24 +80,36 @@ public class SimpleJailCells extends JavaPlugin {
     /**
      * Manages various SimpleJailCell messages.
      */
-    public enum JailCellMessage {
-        CELL_CREATED (ChatColor.AQUA + "Cell '%1' added to '%2'."),
-        CELL_REMOVED (ChatColor.AQUA + "Cell '%1' removed from '%2'."),
-        FLAG_SET (ChatColor.AQUA + "Flag '%1' updated."),
-        JAIL_CREATED (ChatColor.AQUA + "Jail '%1' created."),
-        JAIL_REMOVED (ChatColor.AQUA + "Jail '%1' deleted."),
-        JAIL_TO_CELL (ChatColor.AQUA + "Player '%1' sent to '%2'."),
-        JAILED_TO_CELL (ChatColor.AQUA + "You have been jailed to '%1'!"),
-        MISSING_VALUE (ChatColor.RED + "That flag requires a value."),
-        NO_CELL_WITH_NAME (ChatColor.RED + "No cell name '%1' in '%2'."),
-        NO_JAIL_WITH_NAME (ChatColor.RED + "No jail named '%1'."),
-        NO_SUCH_FLAG (ChatColor.RED + "There is no key named '%1'."),
-        PLAYER_MUST_BE_ONLINE (ChatColor.RED + "Player must be online to use the . parameter.");
+    public enum JailCellMessage implements MessageTemplate {
+        CELL_CREATED (MessageLevel.COMPLETE, "Cell <i>%1</i> added to <i>%2</i>."),
+        CELL_REMOVED (MessageLevel.COMPLETE, "Cell <i>%1</i> removed from <i>%2</i>."),
+        FLAG_SET (MessageLevel.COMPLETE, "Flag <i>%1</i> updated."),
+        JAIL_CREATED (MessageLevel.COMPLETE, "Jail <i>%1</i> created."),
+        JAIL_REMOVED (MessageLevel.COMPLETE, "Jail <i>%1<i> deleted."),
+        JAIL_TO_CELL (MessageLevel.COMPLETE, "Player <i>%1</i> sent to <i>%2</i>."),
+        JAILED_TO_CELL (MessageLevel.COMPLETE, "You have been jailed to <i>%1</i>!"),
+        MISSING_VALUE (MessageLevel.ERROR, "That flag requires a value."),
+        NO_CELL_WITH_NAME (MessageLevel.ERROR, "No cell name <i>%1</i> in <i>%2</i>."),
+        NO_JAIL_WITH_NAME (MessageLevel.ERROR, "No jail named <i>%1</i>."),
+        NO_SUCH_FLAG (MessageLevel.ERROR, "There is no key named <i>%1</i>."),
+        PLAYER_MUST_BE_ONLINE (MessageLevel.ERROR, "Player must be online to use the . parameter.");
         
+        private MessageLevel level;
         private String format;
         
-        JailCellMessage(String format) {
-            this.format = format;
+        JailCellMessage(MessageLevel level, String format) {
+            this.level = level;
+            this.format = Messaging.parseStyling(level.getOpeningTag() + format + level.getClosingTag());
+        }
+        
+        /**
+         * Gets the message's level.
+         *
+         * @return level
+         */
+        @Override
+        public MessageLevel getLevel() {
+            return level;
         }
         
         /**
@@ -95,62 +117,10 @@ public class SimpleJailCells extends JavaPlugin {
          * 
          * @return the message
          */
-        public String message() {
+        @Override
+        public String getMessage() {
             return format;
         }
-        
-        /**
-         * Gets the message with arguments filled.
-         * 
-         * @param args list of arguments
-         * @return the message
-         */
-        public String message(String... args) {
-            String message = format;
-            for(int i = 1; ; i++) {
-                if (message.indexOf("%" + i) > 0) {
-                    message = message.replaceAll("%" + i, args[i - 1]);
-                } else break;
-            }
-            return message;
-        }
-        
-        /**
-         * Sends a message.
-         * 
-         * @param sender reciever
-         */
-        public void send(CommandSender sender) {
-            sender.sendMessage(format);
-        }
-        
-        /**
-         * Sends a message with arguments.
-         * 
-         * @param sender reciever
-         * @param args list of arguments
-         */
-        public void send(CommandSender sender, String... args) {
-            sender.sendMessage(message(args));
-        }
-        
-        /**
-         * Prints a message prefixed with [SimpleJail] to the console.
-         */
-        public void print() {
-            log.info("[SimpleJailCell] " + format);
-        }
-        
-        
-        /**
-         * Prints a message with arguments prefixed with [SimpleJail] to the console.
-         * 
-         * @param args 
-         */
-        public void print(String... args) {
-            log.info("[SimpleJailCell] " + message(args));
-        }
-        
     }
     
 }

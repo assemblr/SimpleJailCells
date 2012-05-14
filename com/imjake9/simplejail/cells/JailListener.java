@@ -8,6 +8,7 @@ import com.imjake9.simplejail.cells.data.Jail;
 import com.imjake9.simplejail.cells.data.JailCell;
 import com.imjake9.simplejail.cells.data.JailDataManager;
 import com.imjake9.simplejail.events.PlayerUnjailEvent;
+import com.imjake9.simplejail.utils.Messaging;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -68,13 +69,13 @@ public class JailListener implements Listener, SimpleJailCommandListener {
                 // Validate jail/cell
                 Jail j = JailDataManager.getInstance().get(jail);
                 if (j == null) {
-                    JailCellMessage.NO_JAIL_WITH_NAME.send(sender, tag[0]);
+                    Messaging.send(JailCellMessage.NO_JAIL_WITH_NAME, sender, tag[0]);
                     return HandleStatus.SUCCESS;
                 }
                 if (cell != null) {
                     JailCell c = j.cells.get(cell);
                     if (c == null) {
-                        JailCellMessage.NO_CELL_WITH_NAME.send(sender, tag[1], tag[0]);
+                        Messaging.send(JailCellMessage.NO_CELL_WITH_NAME, sender, tag[1], tag[0]);
                         return HandleStatus.SUCCESS;
                     }
                 }
@@ -84,7 +85,7 @@ public class JailListener implements Listener, SimpleJailCommandListener {
                 jail = JailDataManager.getInstance().getRandomJail();
             } else if (jail.equals(".")) {
                 if (!online) {
-                    JailCellMessage.PLAYER_MUST_BE_ONLINE.send(sender);
+                    Messaging.send(JailCellMessage.PLAYER_MUST_BE_ONLINE, sender);
                     return HandleStatus.FAILURE;
                 }
                 jail = JailDataManager.getInstance().getClosestJail(bPlayer.getLocation());
@@ -112,7 +113,7 @@ public class JailListener implements Listener, SimpleJailCommandListener {
             if (cell != null) SimpleJail.getPlugin().setJailParameter(player, "cellname", cell);
             
             // Send success message
-            JailCellMessage.JAIL_TO_CELL.send(sender, player, jail);
+            Messaging.send(JailCellMessage.JAIL_TO_CELL, sender, player, jail);
             return HandleStatus.SUCCESS;
         }
         

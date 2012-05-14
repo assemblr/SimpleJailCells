@@ -7,6 +7,7 @@ import com.imjake9.simplejail.cells.data.Jail;
 import com.imjake9.simplejail.cells.data.JailCell;
 import com.imjake9.simplejail.cells.data.JailDataManager;
 import com.imjake9.simplejail.cells.data.SerializableLocation;
+import com.imjake9.simplejail.utils.Messaging;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -62,7 +63,7 @@ public class CommandHandler implements CommandExecutor {
             JailDataManager.getInstance().save();
             
             // Send success message
-            JailCellMessage.JAIL_CREATED.send(sender, args[0]);
+            Messaging.send(JailCellMessage.JAIL_CREATED, sender, args[0]);
             return true;
             
         } else if (commandLabel.equalsIgnoreCase("removejail")) {
@@ -74,7 +75,7 @@ public class CommandHandler implements CommandExecutor {
             Jail jail = JailDataManager.getInstance().get(args[0]);
             // Make sure jail exists
             if (jail == null) {
-                JailCellMessage.NO_JAIL_WITH_NAME.send(sender, args[0]);
+                Messaging.send(JailCellMessage.NO_JAIL_WITH_NAME, sender, args[0]);
                 return true;
             }
             // Unjail all players in jail
@@ -93,7 +94,7 @@ public class CommandHandler implements CommandExecutor {
             JailDataManager.getInstance().save();
             
             // Send success message
-            JailCellMessage.JAIL_REMOVED.send(sender, args[0]);
+            Messaging.send(JailCellMessage.JAIL_REMOVED, sender, args[0]);
             return true;
             
         } else if (commandLabel.equalsIgnoreCase("createcell")) {
@@ -108,7 +109,7 @@ public class CommandHandler implements CommandExecutor {
             // Get jail
             Jail jail = JailDataManager.getInstance().get(tag[0]);
             if (jail == null) {
-                JailCellMessage.NO_JAIL_WITH_NAME.send(sender, tag[0]);
+                Messaging.send(JailCellMessage.NO_JAIL_WITH_NAME, sender, tag[0]);
                 return true;
             }
             // Add cell
@@ -121,7 +122,7 @@ public class CommandHandler implements CommandExecutor {
             JailDataManager.getInstance().save();
             
             // Send success message
-            JailCellMessage.CELL_CREATED.send(sender, tag[1], tag[0]);
+            Messaging.send(JailCellMessage.CELL_CREATED, sender, tag[1], tag[0]);
             return true;
             
         } else if (commandLabel.equalsIgnoreCase("removecell")) {
@@ -136,7 +137,7 @@ public class CommandHandler implements CommandExecutor {
             // Get jail
             Jail jail = JailDataManager.getInstance().get(tag[0]);
             if (jail == null) {
-                JailCellMessage.NO_JAIL_WITH_NAME.send(sender, tag[0]);
+                Messaging.send(JailCellMessage.NO_JAIL_WITH_NAME, sender, tag[0]);
                 return true;
             }
             // Unjail all players in cell
@@ -152,7 +153,7 @@ public class CommandHandler implements CommandExecutor {
             }
             // Remove cell
             if (!jail.cells.containsKey(tag[1])) {
-                JailCellMessage.NO_CELL_WITH_NAME.send(sender, tag[1], tag[0]);
+                Messaging.send(JailCellMessage.NO_CELL_WITH_NAME, sender, tag[1], tag[0]);
                 return true;
             }
             jail.cells.remove(tag[1]);
@@ -161,7 +162,7 @@ public class CommandHandler implements CommandExecutor {
             JailDataManager.getInstance().save();
             
             // Send success message
-            JailCellMessage.CELL_REMOVED.send(sender, tag[1], tag[0]);
+            Messaging.send(JailCellMessage.CELL_REMOVED, sender, tag[1], tag[0]);
             return true;
             
         } else if (commandLabel.equalsIgnoreCase("jailflag")) {
@@ -172,7 +173,7 @@ public class CommandHandler implements CommandExecutor {
             // Get jail
             Jail jail = JailDataManager.getInstance().get(args[0]);
             if (jail == null) {
-                JailCellMessage.NO_JAIL_WITH_NAME.send(sender, args[0]);
+                Messaging.send(JailCellMessage.NO_JAIL_WITH_NAME, sender, args[0]);
                 return true;
             }
             // Set flag
@@ -183,7 +184,7 @@ public class CommandHandler implements CommandExecutor {
             } else if (flag.equalsIgnoreCase("unjail")) {
                 jail.unjailLoc = new SerializableLocation(player.getLocation());
             } else {
-                JailCellMessage.NO_SUCH_FLAG.send(sender, flag);
+                Messaging.send(JailCellMessage.NO_SUCH_FLAG, sender, flag);
                 return false;
             }
             // Save jail
@@ -191,7 +192,7 @@ public class CommandHandler implements CommandExecutor {
             JailDataManager.getInstance().save();
             
             // Send success message
-            JailCellMessage.FLAG_SET.send(sender, flag);
+            Messaging.send(JailCellMessage.FLAG_SET, sender, flag);
             return true;
             
         } else if (commandLabel.equalsIgnoreCase("cellflag")) {
@@ -206,13 +207,13 @@ public class CommandHandler implements CommandExecutor {
             // Get jail
             Jail jail = JailDataManager.getInstance().get(tag[0]);
             if (jail == null) {
-                JailCellMessage.NO_JAIL_WITH_NAME.send(sender, tag[0]);
+                Messaging.send(JailCellMessage.NO_JAIL_WITH_NAME, sender, tag[0]);
                 return true;
             }
             // Get cell
             JailCell cell = jail.cells.get(tag[1]);
             if (cell == null) {
-                JailCellMessage.NO_CELL_WITH_NAME.send(sender, tag[1], tag[0]);
+                Messaging.send(JailCellMessage.NO_CELL_WITH_NAME, sender, tag[1], tag[0]);
                 return true;
             }
             // Set flag
@@ -223,7 +224,7 @@ public class CommandHandler implements CommandExecutor {
             } else if (flag.equalsIgnoreCase("unjail")) {
                 cell.unjailLoc = new SerializableLocation(player.getLocation());
             } else {
-                JailCellMessage.NO_SUCH_FLAG.send(sender, flag);
+                Messaging.send(JailCellMessage.NO_SUCH_FLAG, sender, flag);
                 return false;
             }
             // Save jail
@@ -231,7 +232,7 @@ public class CommandHandler implements CommandExecutor {
             JailDataManager.getInstance().save();
             
             // Send success message
-            JailCellMessage.FLAG_SET.send(sender, flag);
+            Messaging.send(JailCellMessage.FLAG_SET, sender, flag);
             return true;
             
         }

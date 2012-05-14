@@ -36,3 +36,12 @@ commands:
     usage: /<command> <jail:cell> <flag> [value]
     aliases: [cflag, cellf]
     permission: simplejailcells.modify.jails
+
+permissions:
+  simplejailcells.modify:
+    children:
+      simplejailcells.modify.jails: true
+      simplejailcells.modify.cells: true
+  simplejailcells.*:
+    children:
+      simplejailcells.modify: true

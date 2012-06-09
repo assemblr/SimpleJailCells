@@ -1,5 +1,6 @@
 package com.imjake9.simplejail.cells.data;
 
+import com.imjake9.simplejail.utils.SerializableLocation;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;

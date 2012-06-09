@@ -5,7 +5,6 @@ import com.imjake9.simplejail.api.SimpleJailCommandListener.Priority;
 import com.imjake9.simplejail.cells.data.Jail;
 import com.imjake9.simplejail.cells.data.JailCell;
 import com.imjake9.simplejail.cells.data.JailDataManager;
-import com.imjake9.simplejail.cells.data.SerializableLocation;
 import com.imjake9.simplejail.utils.MessageTemplate;
 import com.imjake9.simplejail.utils.Messager;
 import com.imjake9.simplejail.utils.Messaging;
@@ -25,7 +24,6 @@ public class SimpleJailCells extends JavaPlugin {
     private JailListener listener;
     
     static {
-        ConfigurationSerialization.registerClass(SerializableLocation.class, "BukkitLocation");
         ConfigurationSerialization.registerClass(Jail.class, "Jail");
         ConfigurationSerialization.registerClass(JailCell.class, "Cell");
     }

@@ -2,6 +2,7 @@ package com.imjake9.simplejail.cells;
 
 import com.imjake9.simplejail.JailException;
 import com.imjake9.simplejail.SimpleJail;
+import com.imjake9.simplejail.api.JailInfo;
 import com.imjake9.simplejail.api.SimpleJailCommandListener;
 import com.imjake9.simplejail.cells.SimpleJailCells.JailCellMessage;
 import com.imjake9.simplejail.cells.data.Jail;
@@ -92,16 +93,20 @@ public class JailListener implements Listener, SimpleJailCommandListener {
             }
             // Get final location
             Jail j = JailDataManager.getInstance().get(jail);
-            Location loc = j.jailLoc;
-            if (cell != null) loc = j.cells.get(cell).jailLoc;
+            Location jailLoc = j.jailLoc;
+            Location unjailLoc = j.unjailLoc;
+            if (cell != null) {
+                jailLoc = j.cells.get(cell).jailLoc;
+                unjailLoc = j.cells.get(cell).unjailLoc;
+            }
             
             // Jail player
             try {
                 if (args.length == 3) {
                     int time = SimpleJail.getPlugin().parseTimeString(args[2]);
-                    SimpleJail.getPlugin().jailPlayer(player, sender.getName(), time, loc);
+                    SimpleJail.getPlugin().jailPlayer(new JailInfo(sender.getName(), player, jailLoc, unjailLoc), time);
                 } else {
-                    SimpleJail.getPlugin().jailPlayer(player, sender.getName(), loc);
+                    SimpleJail.getPlugin().jailPlayer(new JailInfo(sender.getName(), player, jailLoc, unjailLoc));
                 }
             } catch (JailException ex) {
                 sender.sendMessage(ex.getFormattedMessage());
